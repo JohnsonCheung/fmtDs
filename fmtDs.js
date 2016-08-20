@@ -1,26 +1,25 @@
 exports = {fmtDt};
 'use strict';
-let sep_lin = '\r\n'
-let sep_col = ' | '
-let wdt_ay = (dt) => [0];
-let z_pad_ay_reduce = (prvVal, curVal) => { const v=curVal[0],w=curVal[1], padded = pad(v,w,align); prvVal.push(padded); return prvVal }
 let $zip2 = (ay1,ay2) => []
-let z_pad_ay = (ay,wdt_ay) => $zip2(ay,wdt_ay).reduce(z_pad_ay_reduce,[])   
-let lin_h1 = (fld_ay,wdt_ay) => h1_fldAy_padded(fld_ay,wdt_ay).join(sep_lin)
-let lin_h2 = (wdt_ay) => {let f = lin_h2_fld_ay(wdt_ay); return z_pad_ay(f).join(sep_lin) }
-let lin_h2_fld_ay = (wdt_ay) => ['']
-let lin_bdy = (dr_ay,wdt_ay) => bdyLinAy_padded(dr_ay,wdt_ay).join(sep_lin)
-let bdyLinAy_padded = () => ['']
-let h2_fldAy = () => []
 let a = (1,2,3);
-let z_pad_val = (v,w,align) => {let a=1,b=2; return''}
-let bdy_ay = () => {}
+let bdyLinAy_padded = () => ['']
 let h1_ay =() => ['']
 let h2_ay = () => [""]
-let max = (...p) => {let n=p.length; if(n===0||n===1)return; var o=p[0]; for(var i=1;i<n;i++) o = o>p[i]?o:p[i]; return o }
+let h2_fldAy = () => []
 let hdr_val = (i) => typeof fld_ay(i) ==='string' ? fld_ay(i).length : ''
-let wdt_hdr = (i) => hdr_val(i).length
+let lin_bdy = (dr_ay,wdt_ay) => bdyLinAy_padded(dr_ay,wdt_ay).join(sep_lin())
+let lin_h1 = (fld_ay,wdt_ay) => h1_fldAy_padded(fld_ay,wdt_ay).join(sep_lin())
+let lin_h2 = (wdt_ay) => {let f = lin_h2_fld_ay(wdt_ay); return z_pad_ay(f).join(sep_lin()) }
+let lin_h2_fld_ay = (wdt_ay) => ['']
+let max = (...p) => {let n=p.length; if(n===0||n===1)return; var o=p[0]; for(var i=1;i<n;i++) o = o>p[i]?o:p[i]; return o }
+let sep_col =() =>' | '
+let sep_lin =() => '\r\n'
+let wdt_ay = (dt) => [0];
 let wdt_col = (i) => max( wdt_hdr(i), wdt_dtaCol(i))
+let wdt_hdr = (i) => hdr_val(i).length
+let z_pad_ay = (ay,wdt_ay) => $zip2(ay,wdt_ay).reduce(z_pad_ay_reduce,[])   
+let z_pad_ay_reduce = (prvVal, curVal) => { const v=curVal[0],w=curVal[1], padded = pad(v,w,align); prvVal.push(padded); return prvVal }
+let z_pad_val = (v,w,align) => {let a=1,b=2; return''}
 // return array of string
 function fmtDt(dt) {
     let wdt = wdt_ay(dt)
