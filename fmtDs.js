@@ -1,29 +1,20 @@
 exports = {fmtDs};
+'use strict';
 var _ds;
 /**
  * return array of string
  */
 function fmtDs(ds) {
     _ds = ds;
-    let h1 = fnd_h1();
-    let h2 = fnd_h2();
-    let h3 = h1;
-    let lines = fnd_lines();
-    let o = [];
-    o.push(h1,h2,h3,lines);
-    return o;
-}
-
-function fnd_h1() {
-    return "";
-}
-
-function fnd_h2() {
-    return "";
-}
-
-function fnd_lines() {
-    return "";
+    let H2="";
+    let fld_padded = ['']
+    let fld_ = fld_padded.join(' | ');
+    let H1 = '| ' + fld_ + ' |';
+    let H3 = H1;
+    let Lines =["a","b"];
+    let O = [];
+    O.push(H1,H2,H3,Lines);
+    return O;
 }
 
 var a = fmtDs([[1,2,3],[3,4,5],[3,4,"sdfsdf"]]);
