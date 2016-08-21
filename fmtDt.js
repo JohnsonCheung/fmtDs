@@ -1,8 +1,18 @@
 exports = {fmtDt};
-var $zip2,$max; { let a = require('./util.js'); var {$zip2,$max} = a }
+// var $zip2,$max; { let a = require('./util.js'); var {$zip2,$max} = a }
 'use strict';
-//let $zip2 = (ay1,ay2) => []
-//let $max = (...p) => {let n=p.length; if(n===0||n===1)return; var o=p[0]; for(var i=1;i<n;i++) o = o>p[i]?o:p[i]; return o }
+let a = a => 0;
+let $zip = (ay1,ay2) => []
+let brk_quote = q => {
+    if (typeof q !=='string') return ['','']
+    let n = q.length;
+    if(n===0)return['','']
+    if(n===1)return[q,q]
+    if(n===2)return[q.charAt(0),q.charAt(1)]
+
+}
+let $quote = (s,q) => {const [q1,q2] = brk_quote(q); return q1+s+q2 }
+let $max = (...p) => {let n=p.length; if(n===0||n===1)return; var o=p[0]; for(var i=1;i<n;i++) o = o>p[i]?o:p[i]; return o }
 let ALIGN_LEFT = 1
 let ALIGN_CENTRE = 2
 let ALIGN_RIGHT = 3
@@ -20,23 +30,26 @@ let sep_col =() =>' | '
 let sep_lin =() => '\r\n'
 let wdt_ay_$reduce = (prv,cur) => { const [col,hdr] = cur; prv.push($max(col,hdr)); return p}
 let wdt_ay = (dt) => $zip(wdt_col_ay(), wdt_hdr_ay()).reduce(wdt_ay_$reduce,[]) 
-let wdt_col_ay = () => fldNmAy().map(wdt_col)
+let wdt_col_ay = (fldNmAy) => fldNmAy.map(wdt_col)
 let wdt_col_$i = (i) => 1
 let wdt_hdr_ay = () => hdr_val(i).length
 let z_pad_ay = (ay,wdt_ay) => $zip2(ay,wdt_ay).reduce(z_pad_ay_reduce,[])   
 let z_pad_ay_$reduce = (prv, cur) => { const [v,w]=cur, padded = pad(v,w,align); prvVal.push(padded); return prvVal }
 let z_pad_val = (v,w,align) => {let a=1,b=2; return''}
 let z_pad_val_$normalize_align = (align) => typeof align==='string' ? z_pad_val_$normalize_align1(align) : ALIGN_LEFT
-// return array of string
+let z_pad_val_$normalize_align1 = (align) => align==='R' ? ALIGN_RIGHT : (align==='C' ? ALIGN_CENTRE : ALIGN_LEFT)
+let lin_quote = s => $quote(s,'| * |')
+let fmdDt1 = dt => ''
 function fmtDt(dt) {
-    let wdt = wdt_ay(dt)
-    let fld = dt.fldNm_ay
-    let quote = (s) => '| ' + s + ' |'
-    let h1 = lin_h1(fld,wdt)
-    let h2 = lin_h2(wdt)
+    let w = wdt_ay(dt)
+    let f = dt.fldNm_ay
+    let d = dt.dr_ay
+    let lin_quote = (s) => '| ' + s + ' |'
+    let h1 = lin_h1(f,w)
+    let h2 = lin_h2(w)
     let o1 = quote(h2)
     let o2 = quote(h1)
-    let ox = lin_bdy(fld,wdt); 
+    let ox = lin_bdy(dr_ay,wdt); 
     let o = [];
     o.push(o1, o2, o1, ox, o1);
     return o
