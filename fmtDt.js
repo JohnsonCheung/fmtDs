@@ -1,59 +1,56 @@
 'use strict';
+let $$$;
 // const { zip, pad, ay_add} = require('./util.js')
 const max = (...p) => {
-    let n = p.length;
-    if (n === 0 || n === 1) return;
-    var o = p[0];
-    for (var i = 1; i < n; i++) o = o > p[i] ? o : p[i];
-    return o
-}
-
-//===========
-const LEFT = 1
-const CENTRE = 2
-const RIGHT = 3
-const pad_ovr_flw=(s,l,w) => {
-    switch(w) {
-        case 1: return '.'
-        case 2: return '..'
-        case 3: return s.charAt(0)+'..'
-        default: return s.substr(0,w-2)+'..'
+    const n = p.length
+    if(n==0)return
+    if(n==1)return p[0]
+    let o = p[0]
+    for (let i = 1; i < n; i++) o = o > p[i] ? o : p[i]
+    return o}
+const spc = (n) => ' '.repeat(n)
+{
+    const spc$=spc
+    const LEFT = 1
+    const CENTRE = 2
+    const RIGHT = 3
+    const $v_o = (s,w) => {
+        if(w<=1)return'.'
+        if(w==2)return'..'
+        if(w==3)return s.charAt(0)+'..'
+        return s.substr(0,w-2)
     }
-}
-const pad_spc=(l,w) =>' '.repeat(w-l)
-const pad_half_len1=(l,w) => ((w-l)/2).toFixed()
-const pad_half_len2=(l,w) => w-pad_half_len1(l,w)
-const pad_half_spc1=(l,w) => ' '.repeat(pad_half_len1(l,w))
-const pad_half_spc2=(l,w) => ' '.repeat(pad_half_len2(l,w))
-const pad_left=(s,l,w) => s+pad_spc(l,w)
-const pad_right=(s,l,w) => pad_spc(l,w)+s
-const pad_centre=(s,l,w) =>{const [h1,h2]=[pad_half_spc1(l,w)]}
-const pad = (s, w, align) => {
-    s=String(s)
-    const l = s.length
-    const ovr_flw = l>w
-    if(ovr_flw)return pad_ovr_flw(s,l,w)
-    switch(align) {
-        case CENTRE: return pad_centre(s,l,w)
-        case RIGHT: return pad_right(s,l,w)
-        default: return pad_left(s,l,w)
+    const _l1 = (w, n) => Number.parseInt(((w - n) / 2).toFixed())
+    const _s1_s2 = (w, n) => {const l1=_l1(w, n), l2=w-l1-n; return [spc$(l1), spc$(l2)]}
+    const $v_L = (s, w, n) => s + spc$(w-n)
+    const $v_R = (s, w, n) => spc$(w-n) + s
+    const $v_C = (s, w, n) => { const [s1, s2] = _s1_s2(w, n); return s1 + s + s2}
+    const pad = (s, w, align) => {
+        s = String(s)
+        const n = s.length
+        if(n>w)return $v_ovr(s,w)
+        if(align===RIGHT)return $v_R(s,w,n)
+        if(align===CENTRE)return $v_C(s,w,n)
+        return $v_L(s,w,n)       
     }
-}
-console.log(pad('sdfdfsdj flsjdf',50)+'<')
+    Object.assign(pad, {LEFT,RIGHT,CENTRE})
+    $$$=pad}
 
+const pad=$$$
 const zip = (...ay) => {
     const ay1 = ay.map(ay=>Array.isArray(ay)?ay:[]) // 
     const nEle = ay1.reduce((rslt,ay)=>max(rslt,ay.length),0)
     const ele = (idx) => ay.map(ay=>ay[idx])
     const a = []
     a[nEle-1]=null
-    return a.map((_,idx)=>ele(idx))
-}
+    return a.map((_,idx)=>ele(idx))}
+
 
 const ay_maxLen=(strAy) =>  strAy.reduce((rslt,itm)=> max(rslt,itm.length),0)
 const pipe = (i,...f) => f.reduce((c,p)=>c(p),i)
 const branch = (i, ...f) => f.reduce((c, p) => p.push(c(i), []))
-let fmtDt1; {
+
+{
     const [maxLen$,max$,pad$] = [ay_maxLen,max,pad]
     const SEP_COL = ' | '
     const SEP_LIN = '\r\n'
@@ -61,7 +58,7 @@ let fmtDt1; {
     const $col_w = (dta, i) => maxLen$(_col_i(dta, i))
     const _col_i = (dta, i) => dta.map(dr => String(dr[i]))
     const $bdy_lin = (dr, wdt, align) => $join_fld(wdt.map((w, i) => pad$(dr[i], w, align[i])))
-    fmtDt1 = (dt, align = []) => {
+    $$$ = (dt, align = []) => {
         const fld = dt.fld
         const dta = dt.dta
         const wdt = fld.map((_, i) => max$($col_w(dta, i), fld[i].length))
@@ -72,10 +69,9 @@ let fmtDt1; {
         const h1fld = wdt.map(w => '-'.repeat(w))
         const h1 = $join_fld(h1fld)
         return [h1, h2, h1, bdy, h1].join(SEP_LIN)
-    }
-}
-//compute-beg ==========================================================
-let fmtDt; {
+    }}; 
+const fmtDt1=$$$
+{
     const _Inp = (dt, align_ay=[]) => {}
     const _Oup = (lin_h1,lin_h2,lin_bdy) => {const h1=lin_h1; return [h1, lin_h2, h1, lin_bdy, h1].join(SEP_LIN)}
     const bdy_$lin = (dr, wdt_ay, align_ay) => {const fld = bdy_$lin_fld(dr, wdt_ay, align_ay); return lin_$join(fld)}
@@ -92,8 +88,7 @@ let fmtDt; {
     const wdt_ay_h2 = (fld_ay) => fld_ay.map(fld=>fld.length)
     const wdt_$colI_col = (dta,idx) => dta.map(dr=>String(dr[idx]))
     const wdt_$colI = (dta,idx) => ay_maxLen(wdt_$colI_col(dta,idx))
-    //compute-mid
-    const compute = (dt, align_ay=[]) => {
+    const fmtDt = (dt, align_ay=[]) => {
         const dta$ = dt.dta
         const fld_ay$ = dt.fldNm_ay
         const align_ay$ = align_ay
@@ -106,8 +101,7 @@ let fmtDt; {
         const lin_h1$ = lin_h1(h1_fld$)
         const lin_h2$ = lin_h2(h2_fld$)
         const lin_bdy$ = lin_bdy(bdy_linAy$)
-        return _Oup(lin_h1$, lin_h2$, lin_bdy$)
-    }
-    fmtDt = compute }
-//compute-end
+        return _Oup(lin_h1$, lin_h2$, lin_bdy$)}
+    $$$ = fmtDt }
+const fmtDt=$$$
 module.exports = {fmtDt,fmtDt1}

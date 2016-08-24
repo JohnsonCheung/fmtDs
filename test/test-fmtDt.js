@@ -4,6 +4,6 @@ let dr1 = [1,2,3]
 let dr2 = [3,'lksdfj lksdjf sdf',5]
 let dr3 = ["sdf","skldf","lksdd dfdf"]
 let dta = [dr1,dr2,dr3]
-let a = fmtDt1({fld, dta},[3,3])
+let a = fmtDt1({fld, dta},[3,2,2,3,,2])
 console.log(a)
 debugger
