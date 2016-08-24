@@ -1,4 +1,5 @@
 'use strict';
+const fs = require('fs')
 let $$$;
 // const { zip, pad, ay_add} = require('./util.js')
 const max = (...p) => {
@@ -35,7 +36,6 @@ const spc = (n) => ' '.repeat(n)
     }
     Object.assign(pad, {LEFT,RIGHT,CENTRE})
     $$$=pad}
-
 const pad=$$$
 const zip = (...ay) => {
     const ay1 = ay.map(ay=>Array.isArray(ay)?ay:[]) // 
@@ -44,12 +44,9 @@ const zip = (...ay) => {
     const a = []
     a[nEle-1]=null
     return a.map((_,idx)=>ele(idx))}
-
-
 const ay_maxLen=(strAy) =>  strAy.reduce((rslt,itm)=> max(rslt,itm.length),0)
 const pipe = (i,...f) => f.reduce((c,p)=>c(p),i)
 const branch = (i, ...f) => f.reduce((c, p) => p.push(c(i), []))
-
 {
     const [maxLen$,max$,pad$] = [ay_maxLen,max,pad]
     const SEP_COL = ' | '
@@ -58,7 +55,7 @@ const branch = (i, ...f) => f.reduce((c, p) => p.push(c(i), []))
     const $col_w = (dta, i) => maxLen$(_col_i(dta, i))
     const _col_i = (dta, i) => dta.map(dr => String(dr[i]))
     const $bdy_lin = (dr, wdt, align) => $join_fld(wdt.map((w, i) => pad$(dr[i], w, align[i])))
-    $$$ = (dt, align = []) => {
+    fmtDt1 = (dt, align = []) => {
         const fld = dt.fld
         const dta = dt.dta
         const wdt = fld.map((_, i) => max$($col_w(dta, i), fld[i].length))
@@ -69,7 +66,8 @@ const branch = (i, ...f) => f.reduce((c, p) => p.push(c(i), []))
         const h1fld = wdt.map(w => '-'.repeat(w))
         const h1 = $join_fld(h1fld)
         return [h1, h2, h1, bdy, h1].join(SEP_LIN)
-    }}; 
+    }
+    fmdtDt1}; 
 const fmtDt1=$$$
 {
     const _Inp = (dt, align_ay=[]) => {}
@@ -103,5 +101,19 @@ const fmtDt1=$$$
         const lin_bdy$ = lin_bdy(bdy_linAy$)
         return _Oup(lin_h1$, lin_h2$, lin_bdy$)}
     $$$ = fmtDt }
+const str_unesc = (s) => s.replace('\\c',',').replace('\\t','\t').replace('\\n','\n').replace('\\r','\r')
+const str_esc = (s) => s.replace(',','\\c').replace('\t','\\t').replace('\n','\\n').replace('\r','\\r')
+const split_lvc = (s) => s.split(',').map(s=>str_unesc(s.trim()))
+const ffn_linAy = (ffn) => fs.readFileSync(ffn,'utf8').split('\r\n')
+const ffn_fnn = (ffn) => ffn
 const fmtDt=$$$
-module.exports = {fmtDt,fmtDt1}
+const readCsv = (csvFfn) => {
+    const [unesc$,split$,read$] = [str_unesc,split_lvc, ffn_linAy]
+    const nm = ffn_fnn(csvFfn)
+    const lin_ay = read$(csvFfn)
+    const line1 = lin_ay.shift()
+    const dta = lin_ay.map(split$)
+    const fld = split$(line1)
+    return {nm,dta,fld}
+}
+module.exports = {fmtDt,fmtDt1,readCsv}
