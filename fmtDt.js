@@ -15,6 +15,15 @@ const spc = (n) => ' '.repeat(n)
     const LEFT = 1
     const CENTRE = 2
     const RIGHT = 3
+    const pad = $$$ = (s, w, align) => {
+        s = String(s)
+        const n = s.length
+        if(n>w)return $v_ovr(s,w)
+        if(align===RIGHT)return $v_R(s,w,n)
+        if(align===CENTRE)return $v_C(s,w,n)
+        return $v_L(s,w,n)       
+    }
+    Object.assign(pad, {LEFT,RIGHT,CENTRE})
     const $v_o = (s,w) => {
         if(w<=1)return'.'
         if(w==2)return'..'
@@ -25,17 +34,7 @@ const spc = (n) => ' '.repeat(n)
     const _s1_s2 = (w, n) => {const l1=_l1(w, n), l2=w-l1-n; return [spc$(l1), spc$(l2)]}
     const $v_L = (s, w, n) => s + spc$(w-n)
     const $v_R = (s, w, n) => spc$(w-n) + s
-    const $v_C = (s, w, n) => { const [s1, s2] = _s1_s2(w, n); return s1 + s + s2}
-    const pad = (s, w, align) => {
-        s = String(s)
-        const n = s.length
-        if(n>w)return $v_ovr(s,w)
-        if(align===RIGHT)return $v_R(s,w,n)
-        if(align===CENTRE)return $v_C(s,w,n)
-        return $v_L(s,w,n)       
-    }
-    Object.assign(pad, {LEFT,RIGHT,CENTRE})
-    $$$=pad}
+    const $v_C = (s, w, n) => { const [s1, s2] = _s1_s2(w, n); return s1 + s + s2}}
 const pad=$$$
 const zip = (...ay) => {
     const ay1 = ay.map(ay=>Array.isArray(ay)?ay:[]) // 
@@ -47,15 +46,9 @@ const zip = (...ay) => {
 const ay_maxLen=(strAy) =>  strAy.reduce((rslt,itm)=> max(rslt,itm.length),0)
 const pipe = (i,...f) => f.reduce((c,p)=>c(p),i)
 const branch = (i, ...f) => f.reduce((c, p) => p.push(c(i), []))
-{
+{   
     const [maxLen$,max$,pad$] = [ay_maxLen,max,pad]
-    const SEP_COL = ' | '
-    const SEP_LIN = '\r\n'
-    const $join_fld = (fld) => '| ' + fld.join(SEP_COL) + ' |'
-    const $col_w = (dta, i) => maxLen$(_col_i(dta, i))
-    const _col_i = (dta, i) => dta.map(dr => String(dr[i]))
-    const $bdy_lin = (dr, wdt, align) => $join_fld(wdt.map((w, i) => pad$(dr[i], w, align[i])))
-    fmtDt1 = (dt, align = []) => {
+    const fmtDt1 = $$$ = (dt, align = []) => {
         const fld = dt.fld
         const dta = dt.dta
         const wdt = fld.map((_, i) => max$($col_w(dta, i), fld[i].length))
@@ -67,7 +60,13 @@ const branch = (i, ...f) => f.reduce((c, p) => p.push(c(i), []))
         const h1 = $join_fld(h1fld)
         return [h1, h2, h1, bdy, h1].join(SEP_LIN)
     }
-    fmdtDt1}; 
+    const SEP_COL = ' | '
+    const SEP_LIN = '\r\n'
+    const $join_fld = (fld) => '| ' + fld.join(SEP_COL) + ' |'
+    const $col_w = (dta, i) => maxLen$(_col_i(dta, i))
+    const _col_i = (dta, i) => dta.map(dr => String(dr[i]))
+    const $bdy_lin = (dr, wdt, align) => $join_fld(wdt.map((w, i) => pad$(dr[i], w, align[i])))
+} 
 const fmtDt1=$$$
 {
     const _Inp = (dt, align_ay=[]) => {}
