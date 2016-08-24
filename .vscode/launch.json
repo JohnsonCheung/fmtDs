@@ -5,8 +5,8 @@
             "name": "Launch",
             "type": "node",
             "request": "launch",
-/*            "program": "${workspaceRoot}/test/test-fmtDt.js", */
-            "program": "${workspaceRoot}/compute_process_data.js", 
+            "program": "${workspaceRoot}/test/test-fmtDt.js", 
+/*            "program": "${workspaceRoot}/compute_process_data.js", */
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
