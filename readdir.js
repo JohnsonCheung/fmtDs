@@ -87,20 +87,19 @@ const read_dirInfo3 = (dir) => {
     let entries
     try {
         entries = fs.readdirSync(dir)
-    } catch (e) {
-        const err = 'err in readdir(dir)  err=[' + e + ']'
-        return { err, dir }
+    } catch (err) {
+        return err
     }
 
-    const states = []
-    entries.forEach(
-        (entry, i) => {
-            try {
-                states[i] = fs.statSync(dir + '/' + entry)
-            } catch (e) {
-                states[i] = e
-            }
-        })
+    const read_stat = (entry) => {
+        try {
+            return fs.statSync(dir + '/' + entry)
+        } catch (e) {
+            return e
+        }
+    }
+    const states = entries.reduce((states, entry, i) => { states[i] = read_stat(entry); return states }, [])
+
     return { dir, entries, states }
 }
 //===========================================================================================
