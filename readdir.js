@@ -98,7 +98,7 @@ const read_dirInfo3 = (dir) => {
             return e
         }
     }
-    const states = entries.reduce((states, entry, i) => { states[i] = read_stat(entry); return states }, [])
+    const states = entries.map(entry => read_stat)
 
     return { dir, entries, states }
 }
