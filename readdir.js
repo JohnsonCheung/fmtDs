@@ -55,7 +55,7 @@ const read_dirInfo = $$$
         states[entry_idx] = err ? err : entry_stat
         if (entry_idx === entries.length - 1) cb(dir_info)
     }
-    const read_dirInfo1 = (dir, cb) => fs.readdir(dir, ((err, entries) => dir_is_read(err, entries, dir, cb)))
+    const read_dirInfo1 = (dir, cb) => fs.readdir(dir, (err, entries) => dir_is_read(err, entries, dir, cb))
     $$$ = read_dirInfo1
 }
 const read_dirInfo1 = $$$
@@ -106,14 +106,14 @@ const read_dirInfo3 = (dir) => {
 {
     const $dirInfo_is_read = (dir_info) => {
         if (dir_info.err) console.log('err--------------------')
-        //console.log(dir_info)
+        console.log(dir_info)
     }
     const dir1 = 'c:/users/abc/documents'
     const dir2 = 'c:/users/abc/documents/projects'
     const dir3 = 'c:/users/abc/documents/projects/node_modules'
-    console.log(read_dirInfo3(dir1, $dirInfo_is_read))
-    console.log(read_dirInfo3(dir2, $dirInfo_is_read))
-    console.log(read_dirInfo3(dir3, $dirInfo_is_read))
+    read_dirInfo1(dir1, $dirInfo_is_read)
+//    console.log(read_dirInfo3(dir2, $dirInfo_is_read))
+//    console.log(read_dirInfo3(dir3, $dirInfo_is_read))
 
     //    console.log('starting reading [' + dir1 + ']')
 }
