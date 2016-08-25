@@ -25,8 +25,11 @@ let $$$
             this.dir = dir
             this.cb = cb
             this.dir_info = {}
-            fs.readdir(dir, $dir_is_read)
+            fs.readdir(dir, this.dir_is_read)
         }
+    }
+    const x = Read_dirInfo.prototype
+    x.dir_is_read= (err,entries) => {
 
     }
     const read_dirInfo = $$$ = (dir, cb) => new Read_dirInfo(dir,cb)
