@@ -38,6 +38,7 @@ let $$$
     $$$ = read_dirInfo
 }
 const read_dirInfo = $$$
+//===========================================================================================
 {
     const dir_is_read = (err, entries, dir, cb) => {
         const dir_info = { dir, entries, states: [] }
@@ -58,7 +59,7 @@ const read_dirInfo = $$$
     $$$ = read_dirInfo1
 }
 const read_dirInfo1 = $$$
-
+//===========================================================================================
 {
     const entry_is_read = (err, entry_stat, entry_idx, dir_info) => {
         const {dir, entries, states} = dir_info
@@ -81,8 +82,7 @@ const read_dirInfo1 = $$$
     $$$ = read_dirInfo2
 }
 const read_dirInfo2 = $$$
-
-
+//===========================================================================================
 const read_dirInfo3 = (dir) => {
     let entries
     try {
@@ -103,7 +103,7 @@ const read_dirInfo3 = (dir) => {
         })
     return { dir, entries, states }
 }
-
+//===========================================================================================
 {
     const $dirInfo_is_read = (dir_info) => {
         if (dir_info.err) console.log('err--------------------')
