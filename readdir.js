@@ -39,7 +39,11 @@ let $$$
 }
 const read_dirInfo = $$$
 //===========================================================================================
-{
+const read_dirinfo1 = (()=>{
+
+
+
+
     const dir_is_read = (err, entries, dir, cb) => {
         const dir_info = { dir, entries, states: [] }
         if (err) {
@@ -55,18 +59,16 @@ const read_dirInfo = $$$
         states[entry_idx] = err ? err : entry_stat
         if (entry_idx === entries.length - 1) cb(dir_info)
     }
-    const read_dirInfo1 = (dir, cb) => fs.readdir(dir, (err, entries) => dir_is_read(err, entries, dir, cb))
-    $$$ = read_dirInfo1
-}
-const read_dirInfo1 = $$$
+    return (dir, cb) => fs.readdir(dir, (err, entries) => dir_is_read(err, entries, dir, cb))
+})()
 //===========================================================================================
-{
+const read_dirInfo2 = (()=>{
     const entry_is_read = (err, entry_stat, entry_idx, dir_info) => {
         const {dir, entries, states} = dir_info
         console.log(dir + '    ' + entries[entry_idx])
         states[entry_idx] = err ? err : entry_stat
     }
-    const read_dirInfo2 = (dir) => {
+    return (dir) => {
         let entries
         try {
             entries = fs.readdirSync(dir)
@@ -79,9 +81,7 @@ const read_dirInfo1 = $$$
         entries.forEach((entry, i) => fs.stat(dir + '/' + entry, (err, stat) => entry_is_read(err, stat, i, dir_info)))
         return dir_info
     }
-    $$$ = read_dirInfo2
-}
-const read_dirInfo2 = $$$
+})()
 //===========================================================================================
 const read_dirInfo3 = (dir) => {
     let entries
