@@ -1,5 +1,6 @@
 const fs = require('fs')
-let read_dirInfo = (() => {
+
+const read_dirInfo1 = (() => {
     class Read_dirInfo {
         constructor(dir, cb) {
             this.cb = cb
@@ -36,70 +37,83 @@ let read_dirInfo = (() => {
     return (dir, cb) => (new Read_dirInfo(dir, cb)).read()
 })()
 //===========================================================================================
-const read_dirInfo1 = (() => {
-    const dir_is_read = (err, entries, dir, cb) => {
-        if (err) return cb(er)
-        const dir_info = { dir, entries, states: [] }
-        entries.forEach((entry, i) => fs.stat(dir + '/' + entry, (err, stat) => entry_is_read(err, stat, i, cb, dir_info)))
-    }
+const read_dirInfo2 = (() => {
     const entry_is_read = (err, entry_stat, entry_idx, cb, dir_info) => {
-        const {dir, entries, states} = dir_info
+        const {entries, states} = dir_info
         states[entry_idx] = err ? err : entry_stat
         if (entry_idx === entries.length - 1) cb(dir_info)
+    }
+    const dir_is_read = (err, entries, dir, cb) => {
+        if (err) return cb(err)
+        entries.forEach((entry, i) => fs.stat(dir + '/' + entry, (err, stat) => entry_is_read(err, stat, i, cb, { dir, entries, states: [] })))
     }
     return (dir, cb) => fs.readdir(dir, (err, entries) => dir_is_read(err, entries, dir, cb))
 })()
 //===========================================================================================
-const read_dirInfo2 = (() => {
-    //-------------------------------------------------------------
-    {
-        const f3 = (e2, r2, p1, f1) => { }
-        const f2 = (e2, r2) => { }
-        const $ = (p1, f1, f2, f3) => f2(p1, (e2, r2) => f3(e2, r2, p1, f1))
-        const o = () => (p1, f1) => $(p1, f1, f2, f3)
-    }
-    //-------------------------------------------------------------
-    {
-        const entry_is_read = (err, stat, dir, entries, states, cb) => { states[i] = err || stat; if (i.entries.length) cb({ dir, entries, states }) }
-        const fs_stat = (dir, entries, states, cb) => (err, stat) => entry_is_read(err, stat, dir, entries, states, cb)
-        const entries_forEach = (dir, entries, states, cb) => (entry, i) => fs.stat(dir + '/' + fs_stat(dir, entries, states, cb))
-        const entries_is_read = (entries, dir, states, cb) => entries.forEach(entries_forEach(dir, entries, states, cb))
-        const dir_info = (dir, cb) => fs.readdir(dir, (err, entires) => err ? cb(err) : entries_is_read(entries, dir, [], cb))
-    }
-    //-------------------------------------------------------------
-    {
-        const entry_is_read = (err, stat, dir, entries, states, cb) => { states[i] = err || stat; if (i.entries.length) cb({ dir, entries, states }) }
-        const entries_forEach = (dir, entries, states, cb) => (entry, i) => fs.stat(dir + '/' + entry, (err, stat) => entry_is_read(err, stat, dir, entries, states, cb))
-        const entries_is_read = (entries, dir, states, cb) => entries.forEach(entries_forEach(dir, entries, states, cb))
-        const dir_info = (dir, cb) => fs.readdir(dir, (err, entires) => err ? cb(err) : entries_is_read(entries, dir, [], cb))
-    }
-    //-------------------------------------------------------------
-    {
-        const entry_is_read = (err, stat, dir, entries, states, cb) => { states[i] = err || stat; if (i.entries.length) cb({ dir, entries, states }) }
-        const entries_is_read = (entries, dir, states, cb) => entries.forEach((entry, i) => fs.stat(dir + '/' + entry, (err, stat) => entry_is_read(err, stat, dir, entries, states, cb)))
-        const dir_info = (dir, cb) => fs.readdir(dir, (err, entires) => err ? cb(err) : entries_is_read(entries, dir, [], cb))
-
-        const f4 = (p4, p1) => { }
-        const f3 = (r1, p1, r2, f0) => r2.forEach((r2itm, r2i) => f4(p1 + '/' + r2itm, (e4, r4) => f5(e4, r4, p1, r3, r2, f0)))
-        const c2 = (e2, r2) => { }
-        const sf1 = (p1, c2) => { }
-        const c1 = (e1, r1) => { }
-        const f1 = (p1, c1) => f2(p1, (e2, r2) => er ? f0(e2) : f3(r2, p1, [], f0))
-    }
-    //-------------------------------------------------------------
-    {
-        const entries_is_read = (entries, dir, states, cb) => entries.forEach((entry, i) => fs.stat(entry, (err, stat) => { states[i] = err || stat; if (i <= entries.length) cb({ dir, entries, states }) })))
-        const dir_info = (dir, cb) => fs.readdir(dir, (err, entries) => err ? cb(err) : entries_is_read(entries, dir, [], cb))
-    }
-    //-------------------------------------------------------------
-    /*
-        let o = f i
-        let do o
-
-        let f i do = { let c = make f i do; addque c}
-        f i do
-    */
+const read_dirInfo5a = (() => {
+    const entry_is_read = (err, stat, i, dir_info, cb) => { dir_info.states[i] = err || stat; if (i.entries.length) cb(dir_info) }
+    const read_stat = (entry, i, dir_info, cb) => fs.stat(dir_info.dir + '/' + entry, (err, stat) => entry_is_read(err, stat, i, dir_info, cb))
+    const entries_forEach = (dir_info, cb) => (entry, i) => read_stat(entry, i, dir_info, cb)
+    const entries_is_read = (dir_info, cb) => dir_info.entries.forEach(entries_forEach(dir_info, cb))
+    return (dir, cb) => fs.readdir(dir, (err, entries) => err ? cb(err) : entries_is_read({ dir, entries, states: [] }, cb))
 })()
+//-------------------------------------------------------------
+const read_dirInfo4a = (() => {
+    const entry_is_read = (err, stat, i, dir_info, cb) => { dir_info.states[i] = err || stat; if (i.entries.length) cb(dir_info) }
+    const entries_forEach = (dir_info, cb) => (entry, i) => fs.stat(dir_info.dir + '/' + entry, (err, stat) => entry_is_read(err, stat, i, dir_info, cb))
+    const entries_is_read = (dir_info, cb) => dir_info.entries.forEach(entries_forEach(dir_info, cb))
+    return (dir, cb) => fs.readdir(dir, (err, entries) => err ? cb(err) : entries_is_read({ dir, entries, states: [] }, cb))
+})()
+//-------------------------------------------------------------
+const read_dirInfo3a = (() => {
+    const entry_is_read = (err, stat, i, dir, entries, states, cb) => { states[i] = err || stat; if (i === entries.length - 1) cb({ dir, entries, states }) }
+    const entries_is_read = (entries, dir, states, cb) => entries.forEach((entry, i) => fs.stat(dir + '/' + entry, (err, stat) => entry_is_read(err, stat, i, dir, entries, states, cb)))
+    return (dir, cb) => fs.readdir(dir, (err, entries) => err ? cb(err) : entries_is_read(entries, dir, [], cb))
+})()
+const read_dirInfo3b = (() => {
+    const fs1 = (ps1, cs1) => fs.readdir(ps1, cs1)
+    //        const cs1 = (es1, rs1) => cs1(es1, rs1)
+    const fs2 = (ps2, cs2) => fs.stat(ps2, cs2)
+    //        const cs2 = (es2, rs2) => cs2(es2, rs2)
+
+    const f2 = (es2, rs2, i, p, rs1, rx, c) => { rx[i] = es2 || rs2; if (i === rs1.length - 1) c({ p, rs1, rx }) }
+    const f1 = (rs1, p, rx, c) => rs1.forEach((ps2, i) => fs2(p + '/' + ps2, (es2, rs2) => f2(es2, rs2, i, p, rs1, rx, c)))
+    return (p, c) => fs1(p, (es1, rs1) => es1 ? c(es1) : f1(rs1, p, [], c))
+})()
+//-------------------------------------------------------------
+const read_dirInfo1a = (() => {
+    const entry_is_read = (err, stat) => { const x = this; const {o, i} = x; o.entries[i] = stat; if (i === o.entries.length - 1) return x.cb(o) }
+    const entries_foreach = (entry, i) => { const x = this; x.i = i; fs.stat(entry, entry_is_read.bind({ x })) }
+    const entries_is_read = (err, entries) => { const x = this; if (err) return x.cb(err); x.o.entries = entries; entries.forEach(entries_foreach.bind(x)) }
+    return (dir, cb) => fs.readdir(dir, entries_is_read.bind({ cb, o: { dir, states: [] } }))
+})()
+
+//-------------------------------------------------------------
+const read_dirInfo2a = (() => {
+    const entries_is_read = (entries, dir, states, cb) => entries.forEach((entry, i) => fs.stat(entry, (err, stat) => { states[i] = err || stat; if (i <= entries.length) cb({ dir, entries, states }) }))
+    return (dir, cb) => fs.readdir(dir, (err, entries) => err ? cb(err) : entries_is_read(entries, dir, [], cb))
+})()
+const read_dirInfo2b = (() => {
+    const fs1 = (ps1, cs1) => fs.readdir(ps1, cs1)
+    //        const cs1 = (es1, rs1) => cs1(es1, rs1)
+    const fs2 = (ps2, cs2) => fs.stat(ps2, cs2)
+    //        const cs2 = (es2, rs2) => cs2(es2, rs2)
+
+    const f1 = (rs1, p, rx, c) => rs1.forEach((ps2, i) => fs2(ps2, (es2, rs2) => { rx[i] = es2 || rs2; if (i <= rs1.length) c({ p, rs1, rx }) }))
+    return (p, c) => fs1(p, (es1, rs1) => es1 ? c(es1) : f1(rs1, p, [], c))
+    // fs1 = fs.readdir  ps1 = dir      rs1 = entries     cs1 = (er1, rs1) = cs1(er1,rs1)
+    // fs2 = fs.stat     ps2 = entry    rs2 = stat
+    // f  = dir_info     p = dir        r = dir_info      c = cb   rx = states
+    // f1 = entries_is_read 
+})()
+//-------------------------------------------------------------
+/*
+    let o = f i
+    let do o
+ 
+    let f i do = { let c = make f i do; addque c}
+    f i do
+*/
 //===========================================================================================
 const read_dirInfo3 = (dir) => {
     let entries
@@ -119,42 +133,57 @@ const read_dirInfo3 = (dir) => {
     return { dir, entries, states }
 }
 //===========================================================================================
-const read_dirInfo4 = (()=>{
-    const read_entries = (dir) => { try{return fs.readdirSync(dir)}catch(e){return e} }
-    const read_stat = (entry) => { try{return fs.statSync(entry)}catch(e){return e} }
-    const is_err = (err) => true
+const read_dirInfo4 = (() => {
+    const read_entries = dir => { try { return fs.readdirSync(dir) } catch (e) { return e } }
+    const read_stat = entry => { try { return fs.statSync(entry) } catch (e) { return e } }
+    const is_err = (err) => err
     return (dir) => {
-        let entries;
-        if(entries = read_entries(dir))return entries
+        let entries
+        if (is_err(entries = read_entries(dir))) return entries
         let states = entries.map(read_stat)
-        return {dir, entries, states}
+        return { dir, entries, states }
     }
 })()
 //===========================================================================================
-const read_dirInfo5 = (()=>{
-    const read_entries = (dir) => { try{return fs.readdirSync(dir)}catch(e){return e} }
-    const read_stat = (entry) => { try{return fs.statSync(entry)}catch(e){return e} }
-    const is_err = (err) => true
+const read_dirInfo5 = (() => {
+    const read_entries = (dir) => { try { return fs.readdirSync(dir) } catch (e) { return e } }
+    const read_stat = (entry) => { try { return fs.statSync(entry) } catch (e) { return e } }
+    const is_err = (err) => err
     return (dir) => {
         let entries = read_entries(dir)
-        if(is_err(entries))return entries
+        if (is_err(entries)) return entries
         let states = entries.map(read_stat)
-        return {dir, entries, states}
+        return { dir, entries, states }
     }
 })()
 //===========================================================================================
 
-{
+const test = fn => {
     const $dirInfo_is_read = dir_info => {
-        return
-        if (dir_info.err) console.log('err--------------------')
         console.log(dir_info)
     }
     const dir1 = 'c:/users/abc/documents'
-    const dir2 = 'c:/users/abc/documents/projects'
-    const dir3 = 'c:/users/abc/documents/projects/node_modules'
-    read_dirInfo1(dir1, $dirInfo_is_read)
-    read_dirInfo1(dir2, $dirInfo_is_read)
+//    const dir2 = 'c:/users/abc/documents/projects'
+//    const dir3 = 'c:/users/abc/documents/projects/node_modules'
+    fn(dir1, $dirInfo_is_read)
     //    console.log(read_dirInfo3(dir3, $dirInfo_is_read))
     //    console.log('starting reading [' + dir1 + ']')
 }
+const a = [
+    read_dirInfo1a,
+    read_dirInfo2a,
+    read_dirInfo2b,
+    read_dirInfo3a,
+    read_dirInfo3b,
+    read_dirInfo4a,
+    read_dirInfo5a,
+    read_dirInfo1,
+    read_dirInfo2,
+]
+a.forEach(test)
+
+const b = [    read_dirInfo3,
+    read_dirInfo4,
+    read_dirInfo5,
+]
+b.forEach(fn=>console.log(fn('c:/users/abc/documents')))
