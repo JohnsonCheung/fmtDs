@@ -51,6 +51,7 @@ const read_dirInfo = $$$
     }
     const entry_is_read = (err, entry_stat, entry_idx, cb, dir_info) => {
         const {dir, entries, states} = dir_info
+        debugger;
         console.log(dir + '    ' + entries[entry_idx])
         states[entry_idx] = err ? err : entry_stat
         if (entry_idx === entries.length - 1) cb(dir_info)
@@ -105,6 +106,7 @@ const read_dirInfo3 = (dir) => {
 //===========================================================================================
 {
     const $dirInfo_is_read = (dir_info) => {
+        return
         if (dir_info.err) console.log('err--------------------')
         console.log(dir_info)
     }
@@ -112,7 +114,7 @@ const read_dirInfo3 = (dir) => {
     const dir2 = 'c:/users/abc/documents/projects'
     const dir3 = 'c:/users/abc/documents/projects/node_modules'
     read_dirInfo1(dir1, $dirInfo_is_read)
-    //    console.log(read_dirInfo3(dir2, $dirInfo_is_read))
+    read_dirInfo1(dir2, $dirInfo_is_read)
     //    console.log(read_dirInfo3(dir3, $dirInfo_is_read))
     //    console.log('starting reading [' + dir1 + ']')
 }
