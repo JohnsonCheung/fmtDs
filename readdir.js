@@ -157,19 +157,17 @@ const read_dirInfo5 = (() => {
     }
 })()
 //===========================================================================================
-
-const test = fn => {
-    const $dirInfo_is_read = dir_info => {
-        console.log(dir_info)
-    }
+const test = (() => {
+    const write_file = (nm, dir_info) => { nm, dir_info }
+    //
     const dir1 = 'c:/users/abc/documents'
-//    const dir2 = 'c:/users/abc/documents/projects'
-//    const dir3 = 'c:/users/abc/documents/projects/node_modules'
-    fn(dir1, $dirInfo_is_read)
+    //    const dir2 = 'c:/users/abc/documents/projects'
+    //    const dir3 = 'c:/users/abc/documents/projects/node_modules'
+    return (i) => { const {nm, fn} = i; fn(dir1, dir_info => write_file(nm, dir_info)) }
     //    console.log(read_dirInfo3(dir3, $dirInfo_is_read))
     //    console.log('starting reading [' + dir1 + ']')
-}
-const a = [
+})()
+const a = {
     read_dirInfo1a,
     read_dirInfo2a,
     read_dirInfo2b,
@@ -179,11 +177,11 @@ const a = [
     read_dirInfo5a,
     read_dirInfo1,
     read_dirInfo2,
-]
-a.forEach(test)
+}
+for (let i of a) test(i)
 
-const b = [    read_dirInfo3,
+const b = [read_dirInfo3,
     read_dirInfo4,
     read_dirInfo5,
 ]
-b.forEach(fn=>console.log(fn('c:/users/abc/documents')))
+b.forEach(fn => console.log(fn('c:/users/abc/documents')))
