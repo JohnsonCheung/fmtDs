@@ -1,12 +1,42 @@
 <script>
-var a = indexedDB.open("aaa")
-var db;
+var db
+(function() {
+var a = indexedDB.open("aaDb",1)
+console.log("sdf")
 a.onupgradeneeded = function(evt) {
-    db = evt.target
-    debugger
+    console.log("upgrading...")
+    var dbopnReq = evt.target
+    db = dbopnReq.result
+    db.onclose = function() { console.log("database closed..") }
+    var objectStore = db.createObjectStore("toDoList", { keyPath: "taskTitle" });
+    
+    // define what data items the objectStore will contain
+    
+    objectStore.createIndex("hours", "hours", { unique: false });
+    objectStore.createIndex("minutes", "minutes", { unique: false });
+    objectStore.createIndex("day", "day", { unique: false });
+    objectStore.createIndex("month", "month", { unique: false });
+    objectStore.createIndex("year", "year", { unique: false });
+
+    objectStore.createIndex("notified", "notified", { unique: false });
+    var newItem = [ 
+        { taskTitle: "Walk dog", hours: 19, minutes: 30, day: 24, month: "December", year: 2013, notified: "no" },
+        { taskTitle: "Walk dog - 2 ", hours: 19, minutes: 31, day: 25, month: "December", year: 2013, notified: "no" },
+        
+    ]
+    objectStore.add(newItem[0])
+    console.log("added: 0...")
+    objectStore.add(newItem[1])
+    console.log("added: 1...")
+    console.log("closing...")
+    db.close()
+    console.log("closed")
 }
 a.onsuccess = function(evt) {
-    db = evt.target;
-    db.createO
+    console.log("success...")
+    db = evt.target.result;
+    console.log("success...1")
 }
+    
+})()
 </script>
