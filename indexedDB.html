@@ -1,0 +1,12 @@
+<script>
+var a = indexedDB.open("aaa")
+var db;
+a.onupgradeneeded = function(evt) {
+    db = evt.target
+    debugger
+}
+a.onsuccess = function(evt) {
+    db = evt.target;
+    db.createO
+}
+</script>
