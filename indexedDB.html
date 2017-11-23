@@ -1,5 +1,5 @@
 <script>
-var db
+var db, dtaAll, tx, objectStore;
 (function() {
 var a = indexedDB.open("aaDb",1)
 console.log("sdf")
@@ -36,6 +36,8 @@ a.onsuccess = function(evt) {
     console.log("success...")
     db = evt.target.result;
     console.log("success...1")
+    db.transaction("toDoList","readwrite").objectStore("toDoList").getAll().onsuccess = e => dtaAll = e.target.result
+    console.log("success...2")
 }
     
 })()
