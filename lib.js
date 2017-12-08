@@ -43,4 +43,10 @@ function doc_add_id(doc) {
     return tagName + (++tagName_cnt_dic[tagName])
   }
 }
-    
+function doc_remove_ids(doc) {
+  doc = doc||document
+  var all = doc.all
+  for(var j=0;j<all.length;j++) {
+    all[j].removeAttribute("id")
+  }
+}
