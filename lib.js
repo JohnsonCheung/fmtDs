@@ -22,9 +22,7 @@ function doc_ids(doc) {
   return ids
 }
 function el_add_atr(el,nm,v) {
-  var a = el.ownerDocument.createAttribute(nm)
-  a.value = v
-  el.setNamedItem(a)
+  el.setAttribute(nm,v)
 }
 function doc_add_id(doc) {
   doc = doc||document
@@ -42,7 +40,7 @@ function doc_add_id(doc) {
   function _idVal(tagName, tagName_cnt_dic) {
     if(tagName_cnt_dic[tagName]===undefined) 
       tagName_cnt_dic[tagName]=0
-    return ++tagName_cnt_dic[tagName]
+    return tagName + (++tagName_cnt_dic[tagName])
   }
 }
     
