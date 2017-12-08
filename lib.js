@@ -1,5 +1,5 @@
 function doc_tagNames(doc) {
-  doc = !doc||document
+  doc = doc||document
   var all = doc.all
   var ny = {}
   for(var j=0;j<all.length;j++) { 
@@ -10,7 +10,7 @@ function doc_tagNames(doc) {
   return Object.getOwnPropertyNames(ny)
 }
 function doc_ids(doc) {
-  doc = !doc||document
+  doc = doc||document
   var all = doc.all
   var ids = {}
   for(var j=0;j<all.length;j++) {
