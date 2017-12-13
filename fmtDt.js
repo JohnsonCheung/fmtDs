@@ -1,17 +1,20 @@
-const={len, ayMax, sy2maxLen, jn}=require('curryfun')
+const={len, ayMax, sy2maxLen, max, jn}=require('curryfun')
 const sdr2lin=colsep=>sdr=>colsep+' '+sdr.join(' '+colsep+' ')+' '+colsep
-const sdry2ncol=sdry=>sdry.map(len)
+const sdry2ncol=sdry=>ayMax(sdry.map(len))
 const sdry2wdtAy = sdry => {
     const ncol = sdry2ncol(sdry)
     const colI=i=>sdry2colI(i)(sdry)
-    for(const j=0;j<ncol;j++) sy2maxLen(colI(j))
-const _col_i = (dta, i) => dta.map(dr => String(dr[i]))
+    let o=0
+    for(const j=0;j<ncol;j++) o=max(o,sy2maxLen(colI(j)))
+    return o
+｝
+const dry2colI=i=>dry=>dry.map((dr,i)=>dr[i])
 const jn=sep=>ay=>ay.join(sep)
 const jnCrLf=jn('\r\n')
 const jnLf=jn('\n')
-const sdr2lin = (wdtAy, align, sep) => sdr => jn(sep)(wdtAy.map((w, i) => pad(sdr[i], w, align[i])))
-const pad = s => s
-const ayMax = ay => { 
+const sdr2lin=(wdtAy,align,sep)=>sdr=>jn(sep)(wdtAy.map((w,i)=>pad(sdr[i],w,align[i])))
+const pad=s=>s
+const ayMax=ay=>{ 
     let o
     for(i of ay) {
         if(o===undefined) {
@@ -24,9 +27,9 @@ const ayMax = ay => {
     }
     return o
 }
-const len = i => i.length
+const len=s=>s.length
 const ay_maxLen = ay => ayMax(ay.map(len))
-const max = (a,b) => a>b ? a : b
+const max= (a,b) => a>b ? a : b
 const fmtDt = (dt, align = []) => {
     const {fny,dry} = dt
     Const sdry = dryToSdry(dry)
