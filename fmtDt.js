@@ -1,5 +1,8 @@
 const={len, ayMax, sy2maxLen, max, jn}=require('curryfun')
-const sdr2lin=colsep=>sdr=>colsep+' '+sdr.join(' '+colsep+' ')+' '+colsep
+const sdr2lin=colsep=>sdr=>colsep+sdr.join(colsep)+colsep
+const sdrPad=wdtAy=>sdr=>{
+    const wdtAy.map((w,i)=>pad(w,align[i],sdr[i]
+                         
 const sdry2ncol=sdry=>ayMax(sdry.map(len))
 const sdry2wdtAy = sdry => {
     const ncol = sdry2ncol(sdry)
@@ -14,33 +17,27 @@ const jnCrLf=jn('\r\n')
 const jnLf=jn('\n')
 const sdr2lin=(wdtAy,align,sep)=>sdr=>jn(sep)(wdtAy.map((w,i)=>pad(sdr[i],w,align[i])))
 const pad=s=>s
-const ayMax=ay=>{ 
-    let o
-    for(i of ay) {
-        if(o===undefined) {
-            o = i
-        } else {
-            if(i>o) {
-                o = i
-            }
-        }
-    }
+const fstItm=enm=>{for(i of enm)return i}
+const enmMax=ay=>{ 
+    let o=fstItm(ay)
+    for(i of ay) o=max(o,i)
     return o
 }
 const len=s=>s.length
-const ay_maxLen = ay => ayMax(ay.map(len))
-const max= (a,b) => a>b ? a : b
-const fmtDt = (dt, align = []) => {
+const sy2maxLen=sy=>enmMax(sy.map(len))
+const max=(a,b)=>a>b?a:b
+const fmtDt=(dt,align='')=>{
     const {fny,dry} = dt
-    Const sdry = dryToSdry(dry)
+    const sdry = dryToSdry(dry)
+    const toLin=sdr=>sdr2lin(colsep)(sdr)
     const sdryColWdtAy = sdry2ColWdtAy(sdry)
     const wdtAy = fny.map((f, i) => max(sdryColWdtAy[i], f.length))
     const bdyLinAy = sdry.map(sdrToLin(wdtAy, align))
     const bdy = bdy_linAy.join(SEP_LIN)
-    const h2fld = fld.map((fld, i) => pad$(fld, wdt[i], align[i]))
-    const h2 = $join_fld(h2fld)
-    const h1fld = wdt.map(w => '-'.repeat(w))
-    const h1 = $join_fld(h1fld)
+    const h2fld = fny.map((f,i)=> pad$(fld, wdt[i], align[i]))
+    const h2 = toLin(h2fld)
+    const h1fldAy = wdtAy.map(w => '-'.repeat(w))
+    const h1 = toLin(h1fldAy)
     return [h1, h2, h1, bdy, h1].join(SEP_LIN)
 }
 module.exports = {fmtDt}
