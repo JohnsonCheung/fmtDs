@@ -1,6 +1,10 @@
-'use strict';
-const $join_fld = fld => '| ' + fld.join(SEP_COL) + ' |'
-const $col_w = (dta, i) => maxLen$(_col_i(dta, i))
+const={len, ayMax, sy2maxLen, jn}=require('curryfun')
+const sdr2lin=colsep=>sdr=>colsep+' '+sdr.join(' '+colsep+' ')+' '+colsep
+const sdry2ncol=sdry=>sdry.map(len)
+const sdry2wdtAy = sdry => {
+    const ncol = sdry2ncol(sdry)
+    const colI=i=>sdry2colI(i)(sdry)
+    for(const j=0;j<ncol;j++) sy2maxLen(colI(j))
 const _col_i = (dta, i) => dta.map(dr => String(dr[i]))
 const jn=sep=>ay=>ay.join(sep)
 const jnCrLf=jn('\r\n')
